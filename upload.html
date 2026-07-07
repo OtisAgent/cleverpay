@@ -2,390 +2,214 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document Upload — HAF CleverPay</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Document Portal — CleverPay × HAF</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #f18e00;
-  --bg: #f4f1eb;
-  --panel: #ffffff;
-  --text: #1e252b;
-  --muted: #6f777d;
-  --line: rgba(47,55,62,.12);
-  --green: #2a7d4f;
-  --green-bg: #edf7f1;
-  --red: #b4483f;
-  --radius: 20px;
-  --shadow: 0 16px 48px rgba(22,25,27,.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: "Inter", sans-serif;
-  background: radial-gradient(circle at top left, rgba(241,142,0,.10), transparent 40%), var(--bg);
-  min-height: 100vh;
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-}
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 16px;
-}
-.card {
-  background: var(--panel);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  width: 100%;
-  max-width: 520px;
-  overflow: hidden;
-}
-.card-head {
-  background: #1e252b;
-  padding: 28px 32px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background: var(--orange);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.logo-icon svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 2.2; }
-.logo-text { line-height: 1.2; }
-.logo-name {
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  color: white;
-  letter-spacing: -.02em;
-}
-.logo-name span { color: var(--orange); }
-.logo-sub { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 500; }
-.card-body { padding: 32px; }
-.card-body h1 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -.03em;
-  margin-bottom: 6px;
-}
-.card-body p { font-size: 14px; color: var(--muted); line-height: 1.55; margin-bottom: 28px; }
-
-.field { margin-bottom: 18px; }
-.field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 7px; }
-.field input, .field select {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--text);
-  background: #fafaf8;
-  outline: none;
-  transition: border-color .15s;
-}
-.field input:focus, .field select:focus { border-color: var(--orange); }
-.field select { cursor: pointer; }
-
-.upload-zone {
-  border: 2px dashed rgba(47,55,62,.2);
-  border-radius: 14px;
-  padding: 28px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color .15s, background .15s;
-  background: #fafaf8;
-  position: relative;
-}
-.upload-zone:hover, .upload-zone.drag { border-color: var(--orange); background: #fff9f0; }
-.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.upload-icon {
-  width: 44px; height: 44px;
-  background: rgba(241,142,0,.10);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px;
-}
-.upload-icon svg { width: 22px; height: 22px; stroke: var(--orange); fill: none; stroke-width: 2; }
-.upload-zone h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.upload-zone p { font-size: 12px; color: var(--muted); margin: 0; }
-.upload-zone .orange { color: var(--orange); }
-
-.file-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
-.file-item {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--green-bg);
-  border-radius: 10px;
-  padding: 9px 12px;
-}
-.file-item svg { width: 16px; height: 16px; stroke: var(--green); fill: none; stroke-width: 2; flex-shrink: 0; }
-.file-item span { font-size: 13px; font-weight: 500; color: var(--green); flex: 1; }
-.file-item .rm { background: none; border: none; cursor: pointer; padding: 2px; color: var(--muted); font-size: 16px; line-height: 1; }
-
-.notice {
-  background: #fff9f0;
-  border: 1.5px solid rgba(241,142,0,.25);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 12.5px;
-  color: #8a5a00;
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-.notice b { font-weight: 700; }
-
-.submit-btn {
-  width: 100%;
-  padding: 15px;
-  background: var(--orange);
-  color: white;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -.01em;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(241,142,0,.30);
-  transition: transform .12s, box-shadow .12s, opacity .12s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(241,142,0,.38); }
-.submit-btn:active { transform: translateY(0); }
-.submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-.submit-btn svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2.2; }
-
-.footer-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 18px; line-height: 1.5; }
-
-/* Success screen */
-.success {
-  display: none;
-  text-align: center;
-  padding: 48px 32px;
-}
-.success-icon {
-  width: 72px; height: 72px;
-  background: var(--green-bg);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-}
-.success-icon svg { width: 36px; height: 36px; stroke: var(--green); fill: none; stroke-width: 2; }
-.success h2 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 22px; font-weight: 800;
-  color: var(--text);
-  margin-bottom: 10px;
-  letter-spacing: -.03em;
-}
-.success p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
-.ref-box {
-  background: #f4f1eb;
-  border-radius: 12px;
-  padding: 14px 20px;
-  margin: 20px 0;
-  font-size: 14px;
-  color: var(--text);
-}
-.ref-box b { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-.ref-num { font-size: 22px; font-weight: 700; color: var(--orange); letter-spacing: .04em; }
-.upload-more {
-  background: none; border: 1.5px solid var(--line);
-  border-radius: 999px; padding: 12px 24px;
-  font-family: inherit; font-size: 13px; font-weight: 600;
-  color: var(--text); cursor: pointer; margin-top: 8px;
-  transition: border-color .12s;
-}
-.upload-more:hover { border-color: var(--orange); }
+:root{--or:#f18e00;--bg:#f4f1eb;--dk:#1e252b;--mu:#6f777d;--ln:rgba(47,55,62,.12);--gr:#2a7d4f;--am:#b98530;--rd:#b4483f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter",sans-serif;background:radial-gradient(circle at top left,rgba(241,142,0,.10),transparent 40%),var(--bg);min-height:100vh;color:var(--dk);-webkit-font-smoothing:antialiased}
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 16px 48px}
+.card{background:#fff;border-radius:20px;box-shadow:0 16px 48px rgba(22,25,27,.10);width:100%;max-width:540px;overflow:hidden}
+.hd{background:var(--dk);padding:22px 26px;display:flex;align-items:center;gap:12px}
+.hi{width:36px;height:36px;background:var(--or);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hi svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2.2}
+.hn{font-family:"Montserrat",sans-serif;font-size:16px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hn span{color:var(--or)}
+.hs{font-size:11px;color:rgba(255,255,255,.45);margin-top:1px}
+#login{padding:28px 26px}
+#login h1{font-family:"Montserrat",sans-serif;font-size:18px;font-weight:800;letter-spacing:-.03em;margin-bottom:5px}
+#login p{font-size:13px;color:var(--mu);line-height:1.5;margin-bottom:22px}
+.fl{margin-bottom:14px}
+.fl label{display:block;font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px}
+.fl input{width:100%;padding:11px 13px;border:1.5px solid var(--ln);border-radius:12px;font-size:14px;font-family:inherit;color:var(--dk);background:#fafaf8;outline:none;transition:border-color .15s}
+.fl input:focus{border-color:var(--or)}
+.err{display:none;font-size:12px;color:var(--rd);margin-top:8px;padding:9px 12px;background:#fdf2f2;border-radius:9px}
+.pbtn{width:100%;padding:13px;background:var(--or);color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;font-weight:800;border:none;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(241,142,0,.28);transition:transform .12s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.pbtn:hover{transform:translateY(-1px)}
+.pbtn svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.2}
+.hint{font-size:11px;color:var(--mu);text-align:center;margin-top:12px}
+#dash{display:none}
+.dh{padding:18px 26px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dh h2{font-family:"Montserrat",sans-serif;font-size:15px;font-weight:800;letter-spacing:-.03em}
+.dh p{font-size:12px;color:var(--mu);margin-top:2px}
+.btype{font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(241,142,0,.12);color:#8a5a00;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.pb{margin:14px 26px 0;background:var(--ln);border-radius:999px;height:5px;overflow:hidden}
+.pf{height:100%;background:var(--or);border-radius:999px;transition:width .5s}
+.pl{margin:5px 26px 12px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between}
+.noti{margin:0 26px 16px;background:#fff9f0;border:1.5px solid rgba(241,142,0,.22);border-radius:11px;padding:10px 13px;font-size:12px;color:#8a5a00;line-height:1.5}
+.noti b{font-weight:700}
+.dl{padding:0 26px 26px;display:flex;flex-direction:column;gap:9px}
+.di{border:1.5px solid var(--ln);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:11px}
+.di.ok{border-color:rgba(42,125,79,.25);background:#edf7f1}
+.di.pend{border-color:rgba(185,133,48,.25);background:#fff8eb}
+.di.exp{border-color:rgba(180,72,63,.25);background:#fdf2f2}
+.dic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(47,55,62,.07)}
+.di.ok .dic{background:rgba(42,125,79,.12)}
+.di.pend .dic{background:rgba(185,133,48,.12)}
+.di.exp .dic{background:rgba(180,72,63,.12)}
+.dic svg{width:16px;height:16px;fill:none;stroke-width:2;stroke:var(--mu)}
+.di.ok .dic svg{stroke:var(--gr)}
+.di.pend .dic svg{stroke:var(--am)}
+.di.exp .dic svg{stroke:var(--rd)}
+.din{flex:1;min-width:0}
+.dnm{font-size:13px;font-weight:600}
+.dsb{font-size:11px;color:var(--mu);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip{display:inline-flex;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:.03em;text-transform:uppercase;margin-top:4px}
+.cn{background:rgba(47,55,62,.08);color:var(--mu)}
+.co{background:rgba(42,125,79,.12);color:var(--gr)}
+.cp{background:rgba(185,133,48,.12);color:var(--am)}
+.ce{background:rgba(180,72,63,.12);color:var(--rd)}
+.ubtn{padding:8px 13px;background:var(--or);color:#fff;font-size:11px;font-weight:700;border:none;border-radius:999px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.rbtn{padding:8px 13px;background:none;color:var(--mu);font-size:11px;font-weight:600;border:1.5px solid var(--ln);border-radius:999px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.sft{padding:14px 26px;border-top:1px solid var(--ln);display:flex;align-items:center;justify-content:space-between}
+.sft span{font-size:11px;color:var(--mu)}
+.sobt{padding:6px 13px;background:none;border:1.5px solid var(--ln);border-radius:999px;font-size:11px;font-weight:600;color:var(--mu);cursor:pointer;font-family:inherit}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center;padding:16px}
+.ov.show{display:flex}
+.mod{background:#fff;border-radius:18px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 24px 72px rgba(0,0,0,.18)}
+.mhd{background:var(--dk);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.mhd h3{font-family:"Montserrat",sans-serif;font-size:14px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.mhd button{background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;line-height:1}
+.mbd{padding:22px}
+.dz{border:2px dashed rgba(47,55,62,.2);border-radius:13px;padding:26px 18px;text-align:center;cursor:pointer;transition:.15s;background:#fafaf8;position:relative}
+.dz:hover,.dz.drag{border-color:var(--or);background:#fff9f0}
+.dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dzi{width:40px;height:40px;background:rgba(241,142,0,.10);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 9px}
+.dzi svg{width:19px;height:19px;stroke:var(--or);fill:none;stroke-width:2}
+.dz h4{font-size:13px;font-weight:700;margin-bottom:3px}
+.dz p{font-size:11px;color:var(--mu);margin:0}
+.or2{color:var(--or)}
+.sf{display:none;margin-top:10px;align-items:center;gap:8px;background:#edf7f1;border-radius:9px;padding:8px 11px}
+.sf svg{width:14px;height:14px;stroke:var(--gr);fill:none;stroke-width:2;flex-shrink:0}
+.sf span{font-size:12px;color:var(--gr);font-weight:500;flex:1}
+.mf{display:flex;gap:9px;margin-top:14px}
+.mf button{flex:1;padding:11px;border-radius:999px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.mf .cn2{background:none;border:1.5px solid var(--ln);color:var(--mu)}
+.mf .sb{background:var(--or);border:none;color:#fff}
+.mf .sb:disabled{opacity:.4;cursor:not-allowed}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="card">
-    <div class="card-head">
-      <div class="logo-wrap">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-        </div>
-        <div class="logo-text">
-          <div class="logo-name"><span>Clever</span>Pay</div>
-          <div class="logo-sub">Document Upload Portal</div>
-        </div>
-      </div>
+<div class="card">
+  <div class="hd">
+    <div class="hi"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+    <div><div class="hn"><span>Clever</span>Pay · Document Portal</div><div class="hs">Powered by HAF</div></div>
+  </div>
+  <div id="login">
+    <h1>Sign in to upload your documents</h1>
+    <p>Enter the phone number and postcode you registered with. You'll see exactly which documents are needed for your account.</p>
+    <div class="fl"><label>Phone Number</label><input type="tel" id="lp" placeholder="e.g. 07700 900123" autocomplete="tel"></div>
+    <div class="fl"><label>Last 4 digits of postcode</label><input type="text" id="lpc" placeholder="e.g. 1AB" maxlength="4"></div>
+    <div class="err" id="lerr">Those details don't match our records. Please check and try again.</div>
+    <button class="pbtn" onclick="doLogin()">
+      <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Sign in
+    </button>
+    <div class="hint">Need help? Contact <b>support@usehaf.co.uk</b></div>
+  </div>
+  <div id="dash">
+    <div class="dh">
+      <div><h2 id="dnm">—</h2><p>Your required compliance documents</p></div>
+      <span class="btype" id="dtp">—</span>
     </div>
-
-    <div id="form-view">
-      <div class="card-body">
-        <h1>Upload Your Documents</h1>
-        <p>Submit your compliance documents securely. CleverPay will review them and update your HAF account status within 24 hours.</p>
-
-        <div class="field">
-          <label>Full Name</label>
-          <input type="text" id="f-name" placeholder="e.g. James Williams" autocomplete="name">
-        </div>
-        <div class="field">
-          <label>Phone Number</label>
-          <input type="tel" id="f-phone" placeholder="e.g. 07700 900123" autocomplete="tel">
-        </div>
-        <div class="field">
-          <label>Email Address</label>
-          <input type="email" id="f-email" placeholder="e.g. james@email.com" autocomplete="email">
-        </div>
-        <div class="field">
-          <label>Document Type</label>
-          <select id="f-doctype">
-            <option value="">— Select document type —</option>
-            <option>Driving Licence (Front)</option>
-            <option>Driving Licence (Back)</option>
-            <option>Vehicle Insurance Certificate</option>
-            <option>MOT Certificate</option>
-            <option>Vehicle Registration (V5C)</option>
-            <option>PHV / Taxi Licence</option>
-            <option>DBS Check Certificate</option>
-            <option>Right to Work Document</option>
-            <option>Vehicle Rental Agreement</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Upload File(s)</label>
-          <div class="upload-zone" id="drop-zone">
-            <input type="file" id="f-files" multiple accept=".pdf,.jpg,.jpeg,.png,.heic" onchange="handleFiles(this.files)">
-            <div class="upload-icon">
-              <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-            </div>
-            <h3>Drag &amp; drop or <span class="orange">browse files</span></h3>
-            <p>PDF, JPG, PNG or HEIC · Max 10MB per file</p>
-          </div>
-          <div class="file-list" id="file-list"></div>
-        </div>
-
-        <div class="notice">
-          <b>Secure upload.</b> Your documents are encrypted in transit and stored securely. Only your CleverPay compliance officer and HAF admin can access them.
-        </div>
-
-        <button class="submit-btn" onclick="handleSubmit()">
-          <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/></svg>
-          Submit Documents
-        </button>
-
-        <div class="footer-note">
-          Powered by <b>HAF</b> · Questions? Contact support@usehaf.co.uk
-        </div>
+    <div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+    <div class="pl"><span id="plbl">0 of 0 approved</span><span id="ppct">0%</span></div>
+    <div class="noti"><b>What happens next:</b> Upload each document below. CleverPay reviews within 24 hours and you'll get a text confirmation.</div>
+    <div class="dl" id="dl"></div>
+    <div class="sft"><span id="sfr">Ref: —</span><button class="sobt" onclick="doLogout()">Sign out</button></div>
+  </div>
+</div>
+</div>
+<div class="ov" id="ov">
+  <div class="mod">
+    <div class="mhd"><h3 id="mtl">Upload Document</h3><button onclick="closeMod()">×</button></div>
+    <div class="mbd">
+      <div class="dz" id="dz">
+        <input type="file" id="mf" accept=".pdf,.jpg,.jpeg,.png,.heic" onchange="onFS(this)">
+        <div class="dzi"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg></div>
+        <h4>Drag &amp; drop or <span class="or2">browse</span></h4>
+        <p>PDF, JPG, PNG or HEIC · Max 10MB</p>
       </div>
-    </div>
-
-    <div id="success-view" class="success">
-      <div class="success-icon">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <div class="sf" id="sf">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span id="sfn">—</span>
       </div>
-      <h2>Documents Submitted!</h2>
-      <p>Thank you. Your documents have been received and are being reviewed by the CleverPay compliance team.</p>
-      <p>You'll receive an email confirmation shortly.</p>
-      <div class="ref-box">
-        <b>Your Reference Number</b>
-        <div class="ref-num" id="ref-num">CP-000000</div>
+      <div class="mf">
+        <button class="cn2" onclick="closeMod()">Cancel</button>
+        <button class="sb" id="msb" onclick="doUpload()" disabled>Upload</button>
       </div>
-      <p style="font-size:13px;color:var(--muted);">Keep this reference number. You may need it if you contact support.</p>
-      <button class="upload-more" onclick="resetForm()">Upload more documents</button>
     </div>
   </div>
 </div>
-
+<script src="upload-accounts.js"></script>
 <script>
-let selectedFiles = [];
-
-function handleFiles(files) {
-  for (const f of files) selectedFiles.push(f);
-  renderFileList();
+let U=null,OD=null;
+function doLogin(){
+  const p=document.getElementById('lp').value.replace(/\s/g,'').toLowerCase();
+  const c=document.getElementById('lpc').value.replace(/\s/g,'').toLowerCase();
+  const u=ACCOUNTS[p+c];
+  if(!u){document.getElementById('lerr').style.display='block';return}
+  document.getElementById('lerr').style.display='none';
+  U=JSON.parse(JSON.stringify(u));
+  document.getElementById('login').style.display='none';
+  document.getElementById('dash').style.display='block';
+  document.getElementById('dnm').textContent=U.name;
+  document.getElementById('dtp').textContent=U.type;
+  document.getElementById('sfr').textContent='Ref: '+U.ref;
+  render();
 }
-
-function renderFileList() {
-  const list = document.getElementById('file-list');
-  list.innerHTML = '';
-  selectedFiles.forEach((f, i) => {
-    const item = document.createElement('div');
-    item.className = 'file-item';
-    item.innerHTML = `
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      <span>${f.name}</span>
-      <button class="rm" onclick="removeFile(${i})" title="Remove">×</button>`;
-    list.appendChild(item);
-  });
+const LB={none:'Not uploaded',ok:'Approved',pend:'Under review',exp:'Expired'};
+const IC={doc:'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>',ok:'<polyline points="20 6 9 17 4 12"/>',pend:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',exp:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'};
+function render(){
+  const d=U.docs,ok=d.filter(x=>x.st==='ok').length,t=d.length,p=Math.round(ok/t*100);
+  document.getElementById('pf').style.width=p+'%';
+  document.getElementById('plbl').textContent=ok+' of '+t+' approved';
+  document.getElementById('ppct').textContent=p+'%';
+  document.getElementById('dl').innerHTML=d.map(x=>{
+    const ic=x.st==='ok'?'ok':x.st==='pend'?'pend':x.st==='exp'?'exp':'doc';
+    const sb=x.st==='none'?'Required — not yet uploaded':x.st==='ok'?'Uploaded: '+x.file:x.st==='pend'?'Pending review: '+x.file:'Expired — re-upload required: '+x.file;
+    const btn=x.st==='none'||x.st==='exp'?`<button class="ubtn" onclick="openUp('${x.id}')">Upload</button>`:x.st==='pend'?`<button class="rbtn" onclick="openUp('${x.id}')">Replace</button>`:'';
+    const cc=x.st==='ok'?'co':x.st==='pend'?'cp':x.st==='exp'?'ce':'cn';
+    return`<div class="di ${x.st}"><div class="dic"><svg viewBox="0 0 24 24">${IC[ic]}</svg></div><div class="din"><div class="dnm">${x.nm}</div><div class="dsb">${sb}</div><span class="chip ${cc}">${LB[x.st]}</span></div><div>${btn}</div></div>`;
+  }).join('');
 }
-
-function removeFile(i) {
-  selectedFiles.splice(i, 1);
-  renderFileList();
+function openUp(id){
+  OD=id;const d=U.docs.find(x=>x.id===id);
+  document.getElementById('mtl').textContent='Upload — '+d.nm;
+  document.getElementById('mf').value='';
+  document.getElementById('sf').style.display='none';
+  document.getElementById('msb').disabled=true;
+  document.getElementById('ov').classList.add('show');
 }
-
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => {
-  e.preventDefault();
-  dz.classList.remove('drag');
-  handleFiles(e.dataTransfer.files);
+function closeMod(){document.getElementById('ov').classList.remove('show')}
+function onFS(i){
+  if(!i.files[0])return;
+  document.getElementById('sfn').textContent=i.files[0].name;
+  document.getElementById('sf').style.display='flex';
+  document.getElementById('msb').disabled=false;
+}
+function doUpload(){
+  const b=document.getElementById('msb');b.textContent='Uploading…';b.disabled=true;
+  const fn=document.getElementById('sfn').textContent;
+  setTimeout(()=>{const d=U.docs.find(x=>x.id===OD);d.st='pend';d.file=fn;closeMod();render();},1400);
+}
+function doLogout(){
+  U=null;document.getElementById('dash').style.display='none';
+  document.getElementById('login').style.display='block';
+  document.getElementById('lp').value='';document.getElementById('lpc').value='';
+}
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('drag');
+  const f=e.dataTransfer.files[0];if(!f)return;
+  document.getElementById('sfn').textContent=f.name;
+  document.getElementById('sf').style.display='flex';
+  document.getElementById('msb').disabled=false;
 });
-
-function handleSubmit() {
-  const name = document.getElementById('f-name').value.trim();
-  const phone = document.getElementById('f-phone').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-  const doctype = document.getElementById('f-doctype').value;
-
-  if (!name || !phone || !email || !doctype || selectedFiles.length === 0) {
-    alert('Please fill in all fields and select at least one file.');
-    return;
-  }
-
-  const btn = document.querySelector('.submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".2"/><path d="M12 3a9 9 0 019 9" stroke-linecap="round"/></svg> Uploading...';
-
-  setTimeout(() => {
-    const ref = 'CP-' + Math.floor(100000 + Math.random() * 900000);
-    document.getElementById('ref-num').textContent = ref;
-    document.getElementById('form-view').style.display = 'none';
-    document.getElementById('success-view').style.display = 'block';
-  }, 1800);
-}
-
-function resetForm() {
-  selectedFiles = [];
-  document.getElementById('f-name').value = '';
-  document.getElementById('f-phone').value = '';
-  document.getElementById('f-email').value = '';
-  document.getElementById('f-doctype').value = '';
-  document.getElementById('file-list').innerHTML = '';
-  document.getElementById('form-view').style.display = 'block';
-  document.getElementById('success-view').style.display = 'none';
-  document.querySelector('.submit-btn').disabled = false;
-  document.querySelector('.submit-btn').innerHTML = '<svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/></svg> Submit Documents';
-}
-
-const style = document.createElement('style');
-style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
-document.head.appendChild(style);
 </script>
 </body>
 </html>
